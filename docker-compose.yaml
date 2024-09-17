@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  focalboard:
+    image: mattermost/focalboard
+    container_name: focalboard
+    environment:
+      - SERVICE_FQDN_SPDF_8000
+      - DB_CLIENT=postgres # Cambia a mysql si usas MySQL
+      - DB_HOST=db
+      - DB_PORT=5432 # Cambia a 3306 si usas MySQL
+      - DB_USER=${SERVICE_USER_POSTGRESQL:-postgres}
+      - DB_PASSWORD=${SERVICE_PASSWORD_POSTGRESQL:-password}
+      - DB_NAME=${POSTGRESQL_DATABASE:-focalboarddb}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    container_name: focalboard-db
+    environment:
+      - POSTGRES_USER=${SERVICE_USER_POSTGRESQL:-postgres}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRESQL:-password}
+      - POSTGRES_DB=${POSTGRESQL_DATABASE:-focalboarddb}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
