@@ -5,10 +5,10 @@ services:
     image: mattermost/focalboard
     container_name: focalboard
     environment:
-      - SERVICE_FQDN_SPDF_8000
+      - SERVICE_FQDN_FOCALBOARD
       - DB_CLIENT=postgres # Cambia a mysql si usas MySQL
-      - DB_HOST=db
-      - DB_PORT=5432 # Cambia a 3306 si usas MySQL
+      - DB_HOST=${POSTGRESQL_DATABASE:-focalboarddb}
+      - DB_PORT=${POSTGRES_PORT:-5432} # Cambia a 3306 si usas MySQL
       - DB_USER=${SERVICE_USER_POSTGRESQL:-postgres}
       - DB_PASSWORD=${SERVICE_PASSWORD_POSTGRESQL:-password}
       - DB_NAME=${POSTGRESQL_DATABASE:-focalboarddb}
